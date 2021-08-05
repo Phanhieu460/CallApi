@@ -1,5 +1,6 @@
-import axios from "axios";
 import React, { Component } from "react";
+import DepartmentApi from "../Api/DepartmentApi";
+import PositionApi from "../Api/PositionApi";
 
 class FormInput extends Component {
   constructor(props) {
@@ -69,29 +70,52 @@ class FormInput extends Component {
     this.getListDepartment();
     this.getListPosition();
   };
-  getListDepartment = () => {
-    const baseURL = `http://localhost:8080`;
-    axios
-      .get(`${baseURL}/api/v1/departments`)
-      .then((res) => {
-        // console.log(res.data);
-        this.setState({
-          listDepartment: res.data,
-        });
-      })
-      .catch((err) => console.log(err));
+  // getListDepartment = () => {
+  //   const baseURL = `http://localhost:8080`;
+  //   axios
+  //     .get(`${baseURL}/api/v1/departments`)
+  //     .then((res) => {
+  //       // console.log(res.data);
+  //       this.setState({
+  //         listDepartment: res.data,
+  //       });
+  //     })
+  //     .catch((err) => console.log(err));
+  // };
+  getListDepartment = async () => {
+    try {
+      const response = await DepartmentApi.getAll();
+      console.log("Department Response:", response);
+      this.setState({
+        listDepartment: response,
+      });
+    } catch (err) {
+      console.log("Da xay ra loi");
+    }
   };
-  getListPosition = () => {
-    const baseURL = `http://localhost:8080`;
-    axios
-      .get(`${baseURL}/api/v1/possitions`)
-      .then((res) => {
-        // console.log(res.data);
-        this.setState({
-          listPosition: res.data,
-        });
-      })
-      .catch((err) => console.log(err));
+  // getListPosition = () => {
+  //   const baseURL = `http://localhost:8080`;
+  //   axios
+  //     .get(`${baseURL}/api/v1/possitions`)
+  //     .then((res) => {
+  //       // console.log(res.data);
+  //       this.setState({
+  //         listPosition: res.data,
+  //       });
+  //     })
+  //     .catch((err) => console.log(err));
+  // };
+
+  getListPosition = async () => {
+    try {
+      const res = await PositionApi.getAll();
+      console.log("Position Res Api:", res);
+      this.setState({
+        listPosition: res,
+      });
+    } catch (err) {
+      console.log("Da xay ra loi");
+    }
   };
   static getDerivedStateFromProps(new_props, state) {
     //console.log("New Props", new_props);
